@@ -17,7 +17,7 @@ function App() {
 
   // Lista de codinomes
   const listCodinomes = [
-    "nome1", "nome2", "nome3", "nome4", "nome5", "nome6", "nome7", "nome8", "nome9", "nome10",
+    "nome0", "nome1", "nome2", "nome3", "nome4", "nome5", "nome6", "nome7", "nome8", "nome9", "nome10",
     "nome11", "nome12", "nome13", "nome14", "nome15", "nome16", "nome17", "nome18", "nome19"
   ];
 
@@ -111,7 +111,7 @@ function App() {
 
   return (
     <div className="container">
-      <h1>DApp Turing</h1>
+      <h1>Votação - Turing Dapp</h1>
       <div className="section">
         <h2>Emitir Tokens</h2>
         <select onChange={(e) => setSelectedCodinome(e.target.value)}>
@@ -143,7 +143,7 @@ function App() {
         <button onClick={handleVote} disabled={!votingEnabled}>Votar</button>
       </div>
       <div className="section">
-        <h2>Controle de Votação</h2>
+        <h2>Votação está {votingEnabled ? 'ativada' : 'desativada'}</h2>
         <button onClick={handleToggleVoting}>
           {votingEnabled ? 'Desativar Votação' : 'Ativar Votação'}
         </button>
@@ -153,8 +153,11 @@ function App() {
         <ul>
           {ranking.length > 0 ? (
             ranking.map((item, index) => (
-              <li key={index}>
-                {item.codinome}: {item.balance} TUR
+              <li key={index} className={`rank-${index + 1}`}>
+                {item.codinome} - {item.balance} TUR
+                <span className="position">
+                  {index + 1}º
+                </span>
               </li>
             ))
           ) : (
