@@ -1,0 +1,104 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: #555;
+  margin-bottom: 10px;
+}
+
+select, input {
+  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+button {
+  padding: 8px 16px;
+  background: linear-gradient(45deg, #007bff, #0056b3); /* Mantém o degradê azul */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background: linear-gradient(45deg, #0056b3, #007bff);
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  padding: 10px;
+  margin-bottom: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  color: #333;
+  position: relative;
+  background-color: #f9f9f9; /* Fundo padrão para todos os itens */
+}
+
+.rank-1 {
+  font-weight: bold;
+  background: linear-gradient(70deg, #ffd700, #f0e39a); /* Dourado */
+}
+
+.rank-2 {
+  font-weight: bold;
+  background: linear-gradient(70deg, #c0c0c0, #e0e0e0); /* Prata */
+}
+
+.rank-3 {
+  font-weight: bold;
+  background: linear-gradient(70deg, #cd7f32, #d09d63); /* Bronze */
+}
+
+.position {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-weight: bold;
+}
+
+.crown {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 30px;
+  height: 30px;
+  transform: rotate(-30deg);
+}
