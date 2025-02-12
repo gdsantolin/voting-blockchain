@@ -14,7 +14,9 @@ function App() {
   const [amount, setAmount] = useState(0);
   const [ranking, setRanking] = useState([]);
   const [votingEnabled, setVotingEnabled] = useState(true);
-  const [names, setNames] = useState([]);
+
+  const names = ["nome0", "nome1", "nome2", "nome3", "nome4", "nome5", "nome6", "nome7", "nome8", "nome9",
+    "nome10", "nome11", "nome12", "nome13", "nome14", "nome15", "nome16", "nome17", "nome18", "nome19"];
 
   useEffect(() => {
     async function init() {
@@ -33,14 +35,35 @@ function App() {
         const account = await signer.getAddress();
         setAccount(account);
 
-        const listCodinomes = await contract.getNames();
-        setNames(listCodinomes);
-
         loadRanking(contract);
       }
     }
     init();
   }, []);
+
+  const loadRanking = async (contract) => {
+    try {
+      const ranking = await Promise.all(names.map(async (codinome) => {
+        try {
+          const address = await contract.codinomes(codinome);
+          if (address === ethers.constants.AddressZero) 
+            return null;
+          
+          const balance = await contract.balanceOf(address);
+          return { codinome, balance: ethers.utils.formatEther(balance) };
+        } catch (err) {
+          console.error(`Erro ao acessar o codinome ${codinome}:`, err);
+          return null;
+        }
+      }));
+      
+      const validRanking = ranking.filter(item => item !== null);
+      validRanking.sort((a, b) => b.balance - a.balance);
+      setRanking(validRanking);
+    } catch (error) {
+      alert('Erro ao carregar ranking');
+    }
+  };
 
   const handleVote = async () => {
     try {
@@ -77,29 +100,6 @@ function App() {
     }
   };
 
-  const loadRanking = async (contract) => {
-    try {
-      const ranking = await Promise.all(listCodinomes.map(async (codinome) => {
-        try {
-          const address = await contract.codinomes(codinome);
-          if (address === ethers.constants.AddressZero) 
-            return null;
-          
-          const balance = await contract.balanceOf(address);
-          return { codinome, balance: ethers.utils.formatEther(balance) };
-        } catch (err) {
-          console.error(`Erro ao acessar o codinome ${codinome}:`, err);
-          return null;
-        }
-      }));
-      
-      const validRanking = ranking.filter(item => item !== null);
-      validRanking.sort((a, b) => b.balance - a.balance);
-      setRanking(validRanking);
-    } catch (error) {
-      alert('Erro ao carregar ranking');
-    }
-  };
 
   return (
     <div className="container">
@@ -108,7 +108,7 @@ function App() {
         <h2>Emitir Tokens</h2>
         <select onChange={(e) => setCodinome(e.target.value)}>
           <option value="">Selecione um codinome</option>
-          {listCodinomes.map((codinome, index) => (
+          {names.map((codinome, index) => (
             <option key={index} value={codinome}>{codinome}</option>
           ))}
         </select>
@@ -123,7 +123,7 @@ function App() {
         <h2>Votar</h2>
         <select onChange={(e) => setCodinome(e.target.value)}>
           <option value="">Selecione um codinome</option>
-          {listCodinomes.map((codinome, index) => (
+          {names.map((codinome, index) => (
             <option key={index} value={codinome}>{codinome}</option>
           ))}
         </select>

@@ -75,28 +75,4 @@ contract Turing is ERC20 {
         votacaoAtiva = false;
     }
 
-    function getNames() public pure returns (string[] memory) {
-        string[] memory names = new string[](20);
-        names[0] = "nome0";
-        names[1] = "nome1";
-        names[2] = "nome2";
-        names[3] = "nome3";
-        names[4] = "nome4";
-        names[5] = "nome5";
-        names[6] = "nome6";
-        names[7] = "nome7";
-        names[8] = "nome8";
-        names[9] = "nome9";
-        names[10] = "nome10";
-        names[11] = "nome11";
-        names[12] = "nome12";
-        names[13] = "nome13";
-        names[14] = "nome14";
-        names[15] = "nome15";
-        names[16] = "nome16";
-        names[17] = "nome17";
-        names[18] = "nome18";
-        names[19] = "nome19";
-        return names;
-    }
 }
