@@ -35,8 +35,17 @@ contract Turing is ERC20 {
         codinomes["nome19"] = 0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199;
     }
 
+    event VoteCast(
+        address indexed voter
+    );
+
     modifier isOwnerOuProfessora() {
         require(msg.sender == deployer || msg.sender == professora, "Nao autorizado");
+        _;
+    }
+
+    modifier notOwnerOuProfessora() {
+        require(msg.sender != deployer && msg.sender != professora, "Owner ou professora nao votam");
         _;
     }
 
@@ -54,7 +63,7 @@ contract Turing is ERC20 {
         _mint(codinomes[codinome], quantidade);
     }
 
-    function vote(string memory codinome, uint256 quantidade) public votacaoLigada isAutorizado(codinome) {
+    function vote(string memory codinome, uint256 quantidade) public votacaoLigada isAutorizado(codinome) notOwnerOuProfessora {
         address votoAddress = codinomes[codinome];
         
         require(quantidade <= 2 * 10**18, "Quantidade invalida");
@@ -65,6 +74,8 @@ contract Turing is ERC20 {
         _mint(msg.sender, 0.2 * 10**18);
 
         votos[msg.sender][codinome] = true;
+
+        emit VoteCast(msg.sender);
     }
 
     function votingOn() public isOwnerOuProfessora {

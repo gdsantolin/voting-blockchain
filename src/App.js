@@ -15,7 +15,7 @@ function App() {
   const [ranking, setRanking] = useState([]);
   const [votingEnabled, setVotingEnabled] = useState(true);
 
-  const names = ["nome0", "nome1", "nome2", "nome3", "nome4", "nome5", "nome6", "nome7", "nome8", "nome9",
+  const names = ["nome1", "nome2", "nome3", "nome4", "nome5", "nome6", "nome7", "nome8", "nome9",
     "nome10", "nome11", "nome12", "nome13", "nome14", "nome15", "nome16", "nome17", "nome18", "nome19"];
 
   useEffect(() => {
@@ -34,8 +34,22 @@ function App() {
 
         const account = await signer.getAddress();
         setAccount(account);
+        
+        const votingEnabled = await contract.votacaoAtiva();
+        setVotingEnabled(votingEnabled);
 
         loadRanking(contract);
+
+        const handleVoteCast = (voter, event) => {
+          loadRanking(contract);
+          console.log("Event");
+        };
+
+        contract.on("VoteCast", handleVoteCast);
+
+        return () => {
+          contract.removeListener("VoteCast", handleVoteCast);
+        };
       }
     }
     init();
@@ -71,7 +85,7 @@ function App() {
       const tx = await contract.vote(codinome, parsedAmount);
       await tx.wait();
       alert('Voto registrado com sucesso!');
-      loadRanking(contract); // Atualiza o ranking após votar
+      
     } catch (error) {
       alert('Erro ao votar');
     }
@@ -99,6 +113,7 @@ function App() {
       alert('Erro ao alterar status da votação');
     }
   };
+
 
 
   return (
